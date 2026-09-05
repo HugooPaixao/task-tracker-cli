@@ -26,17 +26,17 @@ public class TaskManager {
         }
     }
 
-    public List<Task> loadTasks() {
+    public void loadTasks() {
         if (!Files.exists(path)) {
             this.tasks = new ArrayList<>();
-            return this.tasks;
+            return;
         }
 
         try {
             String json = Files.readString(path).trim();
             if (json.isEmpty() || json.equals("[]")) {
                 this.tasks = new ArrayList<>();
-                return this.tasks;
+                return;
             }
 
             List<Task> taskList = new ArrayList<>();
@@ -44,10 +44,22 @@ public class TaskManager {
 
             if (cleanJson.isEmpty()) {
                 this.tasks = new ArrayList<>();
-                return this.tasks;
+                return;
             }
 
-            String[] parts = cleanJson.split("},\\s*");
+            List<String> parts = new ArrayList<>();
+
+            while (!cleanJson.isEmpty()) {
+                int pos = cleanJson.indexOf("},");
+
+                if (pos == -1) {
+                    parts.add(cleanJson);
+                    break;
+                }
+
+                parts.add(cleanJson.substring(0, pos + 1));
+                cleanJson = cleanJson.substring(pos + 2).trim();
+            }
 
             for (String jsonParts : parts) {
                 jsonParts = jsonParts.trim();
@@ -60,16 +72,13 @@ public class TaskManager {
             }
 
             this.tasks = taskList;
-            return this.tasks;
 
         } catch (Exception e) {
             this.tasks = new ArrayList<>();
-            return this.tasks;
         }
     }
 
     public void addTask(String description) {
-        // Calcula automaticamente o próximo ID baseado no maior ID existente
         int nextId = tasks.stream().mapToInt(Task::getId).max().orElse(0) + 1;
 
         Task task = new Task(description);
@@ -103,7 +112,7 @@ public class TaskManager {
             switch (key) {
                 case "id" -> id = Integer.parseInt(value);
                 case "description" -> description = value;
-                case "status" -> status = Status.valueOf(value.toUpperCase());
+                case "status" -> status = Status.valueOf(value.replace("-", "_").toUpperCase());
                 case "createdAt" -> createdAt = LocalDateTime.parse(value);
                 case "updatedAt" -> updatedAt = LocalDateTime.parse(value);
             }
@@ -114,13 +123,13 @@ public class TaskManager {
         task.setStatus(status);
         task.setCreatedAt(createdAt);
         task.setUpdatedAt(updatedAt);
-
         return task;
     }
 
     public void deleteTaskById(String id) {
         Task task =  findTaskById(id).orElseThrow(() -> new IllegalArgumentException("Task with id "+ id +" not found"));
         tasks.remove(task);
+        saveTask();
         System.out.println("Task deleted succefully (ID: " + id + ")");
 
     }
@@ -159,7 +168,7 @@ public class TaskManager {
     }
 
     public void listTaskByStatus(String status) {
-        Status targetStatus = Status.valueOf(status.toUpperCase().trim());
+        Status targetStatus = Status.valueOf(status.trim().replace("-", "_").toUpperCase());
         List<Task> taskList =  tasks.stream()
                 .filter(task -> task.getStatus() == targetStatus)
                 .toList();

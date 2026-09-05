@@ -1,9 +1,16 @@
 [
   {
    "id": 1,
-   "description": "Study java",
-   "status": "done",
-   "createdAt": "2026-09-05T13:10:42.335543809",
-   "updatedAt": "2026-09-05T13:11:27.277120544"
+   "description": "Learn springBoot",
+   "status": "todo",
+   "createdAt": "2026-09-05T20:15:21.536128023",
+   "updatedAt": "2026-09-05T20:15:21.536172968"
+  },
+  {
+   "id": 2,
+   "description": "Learn react",
+   "status": "todo",
+   "createdAt": "2026-09-05T20:17:39.025903324",
+   "updatedAt": "2026-09-05T20:17:39.025917732"
   }
 ]

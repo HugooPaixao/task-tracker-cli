@@ -45,13 +45,6 @@ public class Task {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
@@ -59,18 +52,6 @@ public class Task {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public void markDone() {
-        status = Status.DONE;
-    }
-
-    public void markInProgess() {
-        status = Status.IN_PROGRESS;
-    }
-
-    public void markTodo() {
-        status = Status.TODO;
     }
 
     public String toJson() {
@@ -86,10 +67,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Task {" +
                 "id=" + id +
-                ", description='" + description +
-                ", status='" + status +
+                ", description='" + description + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

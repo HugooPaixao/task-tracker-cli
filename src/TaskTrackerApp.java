@@ -49,9 +49,9 @@ public class TaskTrackerApp {
                 case "list" -> {
                     if (args.length < 2) {
                         System.out.println(task.listAllTasks());
-                    } else {
-                        task.listTaskByStatus(args[1]);
+                        return;
                     }
+                        task.listTaskByStatus(args[1]);
                 }
                 default -> System.out.println("Unknown command: " + command);
             }
