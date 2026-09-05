@@ -100,4 +100,4 @@ The file is created automatically when a task is added.
 ]
 ``````
 
-This project was developed based on the [Task Tracker](https://roadmap.sh/projects/task-tracker) project proposed by [roadmap.sh](https://roadmap.sh/)
+This project was developed based on the [Task Tracker](https://roadmap.sh/projects/task-tracker) project proposed by [roadmap.sh](https://roadmap.sh/).
